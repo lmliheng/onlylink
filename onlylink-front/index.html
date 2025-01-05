@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人简介</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #666;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .nav-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            margin-left: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login {
+            background-color: transparent;
+            border: 1px solid #666;
+            color: #666;
+        }
+        
+        .btn-register {
+            background-color: #4CAF50;
+            border: 1px solid #4CAF50;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-buttons">
+        <a href="login.html" class="btn btn-login">登录</a>
+        <a href="register.html" class="btn btn-register">注册</a>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+ 
+            <h1 id="nickName">加载中...</h1>
+            <p id="userRole">加载中...</p>
+        </div>
+    
+        <div class="section">
+            <h2>个人信息</h2>
+            <p id="userEmail">邮箱：加载中...</p>
+        </div>
+           
+        </div>
+    </div>
+
+    <script>
+        async function getUserInfo() {
+            try {
+                
+                const response = await fetch('http://127.0.0.1:8080/userInfo', {
+                    method: 'GET',
+                    credentials: 'include' // 包含 cookies
+                });
+        
+                if (response.ok) {
+
+                    console.log(response);
+
+                    const userData = await response.json();
+
+                    console.log(userData);
+                    
+                    // 更新页面上的用户信息
+                    document.getElementById('nickName').textContent = userData.nickName || '未设置昵称';
+                    document.getElementById('userEmail').textContent = '邮箱：' + (userData.email || '未设置邮箱');
+                    document.getElementById('userRole').textContent = userData.role || '普通用户';
+        
+                    // 更新导航按钮
+                    const navButtons = document.querySelector('.nav-buttons');
+                    navButtons.innerHTML = `
+                        <span style="margin-right: 10px;">欢迎，${userData.nickName}</span>
+                        <a href="javascript:void(0)" onclick="handleLogout()" class="btn btn-login">退出登录</a>
+                    `;
+                } else {
+                    // 如果未登录或获取信息失败，显示默认登录注册按钮
+                    const navButtons = document.querySelector('.nav-buttons');
+                    navButtons.innerHTML = `
+                        <a href="login.html" class="btn btn-login">登录</a>
+                        <a href="register.html" class="btn btn-register">注册</a>
+                    `;
+                }
+            } catch (error) {
+                console.error('获取用户信息失败：', error);
+            }
+        }
+        
+        async function handleLogout() {
+            // 这里可以添加退出登录的逻辑
+            if (confirm('确定要退出登录吗？')) {
+                // 可以调用退出登录的接口
+                // await fetch('http://127.0.0.1:8080/logout', ...);
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // 页面加载时获取用户信息
+        window.addEventListener('load', getUserInfo);
+        </script>
+
+</body>
+</html>
