@@ -21,7 +21,7 @@ public class Constants {
 
     public static final String STATUC_ERROR = "error";
 
-    public static final String SESSION_KEY = "lmliheng";
+    public static final String SESSION_KEY = "session_key";
 
     /**
      * 频次限制

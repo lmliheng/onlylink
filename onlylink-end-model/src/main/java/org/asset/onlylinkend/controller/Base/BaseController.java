@@ -1,9 +1,9 @@
 package org.asset.onlylinkend.controller.Base;
 
+import org.asset.onlylinkend.entity.dto.user;
 import org.asset.onlylinkend.entity.vo.ResponseVO;
 import org.asset.onlylinkend.entity.constant.Constants;
 import org.asset.onlylinkend.entity.enums.ResponseCodeEnum;
-import org.asset.onlylinkend.entity.dto.userInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -11,14 +11,14 @@ import jakarta.servlet.http.HttpSession;
 public class BaseController {
 
 
-//    public <T> ResponseVO getSuccessResponseVO(T t) {
-//        ResponseVO<T> responseVO = new ResponseVO<>();
-//        responseVO.setStatus(Constants.STATUC_SUCCESS);
-//        responseVO.setCode(ResponseCodeEnum.CODE_200.getCode());
-//        responseVO.setInfo(ResponseCodeEnum.CODE_200.getMsg());
-//        responseVO.setData(t);
-//        return responseVO;
-//    }
+    public <T> ResponseVO getSuccessResponseVO(T t) {
+        ResponseVO<T> responseVO = new ResponseVO<>();
+        responseVO.setStatus(Constants.STATUC_SUCCESS);
+        responseVO.setCode(ResponseCodeEnum.CODE_200.getCode());
+        responseVO.setInfo(ResponseCodeEnum.CODE_200.getMsg());
+        responseVO.setData(t);
+        return responseVO;
+    }
 
 //    protected <S, T> PaginationResultVO<T> convert2PaginationVO(PaginationResultVO<S> result, Class<T> classz) {
 //        PaginationResultVO<T> resultVO = new PaginationResultVO<>();
@@ -60,8 +60,8 @@ public class BaseController {
         return ip;
     }
 
-    public userInfo getUserInfoFromSession(HttpSession session) {
-        userInfo sessionWebUserDto = (userInfo) session.getAttribute(Constants.SESSION_KEY);
+    public user getUserInfoFromSession(HttpSession session) {
+        user sessionWebUserDto = (user) session.getAttribute(Constants.SESSION_KEY);
         return sessionWebUserDto;
     }
 }

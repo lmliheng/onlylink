@@ -9,11 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 @TableName("user")
-public class user {
+public class userInfo {
     @TableId(type = IdType.AUTO)//### Error updating database. Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'id' at row 1
     private Long id;
     private String username;
-    private String password;
     private String email;
+
+
 
 }
