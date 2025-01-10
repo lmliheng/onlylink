@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,26 +13,31 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
+
         .container {
             max-width: 400px;
             margin: 100px auto;
             background-color: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group label {
             display: block;
             margin-bottom: 5px;
             color: #666;
         }
+
         .form-group input {
             width: 100%;
             padding: 8px;
@@ -39,6 +45,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         .btn {
             width: 100%;
             padding: 10px;
@@ -48,23 +55,28 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         .btn:hover {
             opacity: 0.8;
         }
+
         .links {
             text-align: center;
             margin-top: 20px;
         }
+
         .links a {
             color: #666;
             text-decoration: none;
             margin: 0 10px;
         }
+
         .links a:hover {
             color: #4CAF50;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -89,37 +101,42 @@
 
 
     <script>
-async function handleLogin(event) {
-    event.preventDefault();
-    
-    const formData = new FormData(document.getElementById('loginForm'));
-    const queryString = new URLSearchParams(formData).toString();
-    
-    try {
-        const response = await fetch(`http://127.0.0.1:8080/login?${queryString}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        });
-        console.log(response);
-        if (response.ok) {
-            alert('登录成功！');
-            console.log(response);
+        async function handleLogin(event) {
+            event.preventDefault();
 
-                setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 2000);
-        } else {
-            const data = await response.json();
-            alert('登录失败：' + (data.message || '用户名或密码错误'));
+            const formData = new FormData(document.getElementById('loginForm'));
+            const queryString = new URLSearchParams(formData).toString();
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8080/login?${queryString}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+
+                });
+
+
+                const userData = await response.json();
+                console.log(response);
+                console.log(userData);
+
+
+                if (userData.code == 200) {
+                    sessionStorage.setItem('userData', JSON.stringify(userData));
+                  //  sessionStorage.setItem('JSESSIONID', );
+                    alert('登录成功！');
+
+                } else {
+                    alert('登录失败' );
+                }
+            } catch (error) {
+                alert('登录失败：' + error.message);
+            }
         }
-    } catch (error) {
-        alert('登录失败：' + error.message);
-    }
-}
-</script>
+    </script>
 
 
 </body>
-</html> 
+
+</html>
